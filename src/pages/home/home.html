@@ -27,10 +27,10 @@
           <ion-icon [name]="item.icon" item-start></ion-icon>
       </ion-avatar>
       <h2 primary style="font-weight:bold">{{item.title}}</h2>
-      <p>{{item.text}}</p>
+      <p style="word-wrap: break-word;">{{item.text}}</p>
       <button ion-button clear item-end>Edit</button>
     </ion-item>
-    <button ion-button secondary (click)="showResults=false" >BACK</button>
+    <button ion-button secondary (click)="showResults=false" style="margin-top:5vw">BACK</button>
   </ion-list>
 
   

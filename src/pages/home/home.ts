@@ -37,8 +37,9 @@ export class HomePage {
   scan(){
     this.barcodeScanner.scan().then(barcodeData => {
       console.log('Barcode data', barcodeData);
-      
-      var parseString = xml2js.parseString;
+      this.selectedProduct = JSON.stringify(barcodeData);
+      this.showResults = true;
+     /*  var parseString = xml2js.parseString;
       
       parseString(barcodeData, function (err, result) {
           console.log(result);
@@ -46,7 +47,7 @@ export class HomePage {
           this.selectedProduct = JSON.stringify(this.jsonFormat);
           this.showResults = true;
       });
-      
+       */
       
      }).catch(err => {
          console.log('Error', err);

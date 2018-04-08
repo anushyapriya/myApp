@@ -8,14 +8,30 @@
 </ion-header>
 
 <ion-content padding>
-  <h3>Card Scan</h3>
+  <div *ngIf="!showResults" >
+    <h3>Card Scan</h3>
 
-  <button ion-button color="dark" full round (click)="scan()">Start Scan</button>
+    <button ion-button primary full round (click)="scan()" padding>Start Scan</button>
+    
+    <br>
+    
+
+    
+  </div>
+  <ion-list *ngIf="showResults">
+      <p>
+          Data found: {{selectedProduct}}
+          </p>
+    <ion-item *ngFor="let item of results">
+        <ion-avatar item-start>
+          <ion-icon [name]="item.icon" item-start></ion-icon>
+      </ion-avatar>
+      <h2 primary style="font-weight:bold">{{item.title}}</h2>
+      <p>{{item.text}}</p>
+      <button ion-button clear item-end>Edit</button>
+    </ion-item>
+    <button ion-button secondary (click)="showResults=false" >BACK</button>
+  </ion-list>
+
   
-  <br>
-  <p>
-   Data found: {{selectedProduct}}
-  </p>
-
-  <button ion-button secondary menuToggle>Toggle Menu</button>
 </ion-content>

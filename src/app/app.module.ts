@@ -8,6 +8,7 @@ import { ListPage } from '../pages/list/list';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { Camera } from '@ionic-native/camera';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { Geolocation } from '@ionic-native/geolocation';
 
@@ -30,7 +31,7 @@ import { Geolocation } from '@ionic-native/geolocation';
   providers: [
     StatusBar,
     SplashScreen,
-    
+    Camera,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     BarcodeScanner,
     Geolocation

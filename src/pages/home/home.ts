@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController ,ActionSheetController,LoadingController } from 'ionic-angular';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { Geolocation } from '@ionic-native/geolocation';
 import xml2js from "xml2js";
+import { Camera } from '@ionic-native/camera';
 
 @Component({
   selector: 'page-home',
@@ -12,15 +13,78 @@ export class HomePage {
   selectedProduct : any;
   jsonFormat:any;
   showResults:boolean= false;
-  
+  OCRAD: any;
+  srcImage: string;
+
   results = [];
-  constructor(public navCtrl: NavController,private barcodeScanner: BarcodeScanner,
+  constructor(public navCtrl: NavController,private barcodeScanner: BarcodeScanner,private camera: Camera,
+    public actionSheetCtrl: ActionSheetController,public loadingCtrl: LoadingController,
     private geolocation: Geolocation) {
       
     
     
   }
 
+
+  presentActionSheet() {
+    const actionSheet = this.actionSheetCtrl.create({
+      buttons: [
+        {
+          text: 'Choose Photo',
+          handler: () => {
+            this.getPicture(0); // 0 == Library
+          }
+        },{
+          text: 'Take Photo',
+          handler: () => {
+            this.getPicture(1); // 1 == Camera
+          }
+        },{
+          text: 'Demo Photo',
+          handler: () => {
+            this.srcImage = 'assets/imgs/demo.png';
+          }
+        },{
+          text: 'Cancel',
+          role: 'cancel'
+        }
+      ]
+    });
+    actionSheet.present();
+  }
+
+  getPicture(sourceType: number) {
+    
+    this.camera.getPicture({
+      quality: 100,
+      destinationType: 0, // DATA_URL
+      sourceType,
+      allowEdit: true,
+      saveToPhotoAlbum: false,
+      correctOrientation: true
+    }).then((imageData) => {
+      this.srcImage = `data:image/jpeg;base64,${imageData}`;
+    }, (err) => {
+      console.log(`ERROR -> ${JSON.stringify(err)}`);
+    });
+  }
+
+  analyze() {
+    let loader = this.loadingCtrl.create({
+     content: 'Please wait...'
+    });
+    loader.present();
+    (<any>window).OCRAD(document.getElementById('image'), text => {
+      loader.dismissAll();
+      alert(text);
+      console.log(text);
+    });
+  }
+
+  restart() {
+    this.srcImage = '';
+    this.presentActionSheet();
+  }
   scan(){
     this.results=[];
     this.barcodeScanner.scan().then(barcodeData => {

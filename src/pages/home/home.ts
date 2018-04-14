@@ -63,7 +63,7 @@ export class HomePage {
       saveToPhotoAlbum: false,
       correctOrientation: true
     }).then((imageData) => {
-      this.srcImage = `data:image/jpeg;base64,${imageData}`;
+      this.srcImage = `data:image/png;base64,${imageData}`;
     }, (err) => {
       console.log(`ERROR -> ${JSON.stringify(err)}`);
     });
